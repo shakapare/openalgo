@@ -9,26 +9,17 @@ WORKDIR /app
 COPY pyproject.toml .
 
 # create isolated virtual-env with uv, then add gunicorn + eventlet
-# RUN pip install --no-cache-dir uv && \
-#    uv venv .venv && \
-#    uv pip install --upgrade pip && \
-#    uv sync && \
-#    uv pip install gunicorn eventlet && \
+ RUN pip install --no-cache-dir uv && \
+    uv venv .venv && \
+    uv pip install --upgrade pip && \
+    uv sync && \
+    uv pip install gunicorn eventlet && \
 #    uv pip install pymysql && \
 #    uv pip install kiteconnect && \
 #    uv pip install upstox-python && \
-#    rm -rf /root/.cache
+    rm -rf /root/.cache
 # --------------------------------------------------------------------------- #
 
-RUN pip install --no-cache-dir uv
-RUN uv venv .venv
-RUN uv pip install --upgrade pip
-RUN uv sync
-RUN uv pip install gunicorn eventlet
-RUN uv pip install pymysql
-RUN uv pip install kiteconnect
-RUN uv pip install upstox-python
-RUN rm -rf /root/.cache
 
 
 # ------------------------------ Production Stage --------------------------- #

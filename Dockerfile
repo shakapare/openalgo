@@ -14,6 +14,9 @@ RUN pip install --no-cache-dir uv && \
     uv pip install --upgrade pip && \
     uv sync && \
     uv pip install gunicorn eventlet && \
+    uv pip install pymysql && \
+    uv pip install kiteconnect && \
+    uv pip install upstox-python && \
     rm -rf /root/.cache
 # --------------------------------------------------------------------------- #
 

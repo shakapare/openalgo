@@ -1,29 +1,26 @@
 # ------------------------------ Builder Stage ------------------------------ #
-FROM python:3.11-slim
+FROM python:3.13-bookworm AS builder
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
         curl build-essential && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
+COPY requirements.txt
 COPY pyproject.toml .
 
 # create isolated virtual-env with uv, then add gunicorn + eventlet
- RUN pip install --no-cache-dir uv && \
+RUN pip install --no-cache-dir uv && \
     uv venv .venv && \
     uv pip install --upgrade pip && \
     uv sync && \
     uv pip install gunicorn eventlet && \
-#    uv pip install pymysql && \
-#    uv pip install kiteconnect && \
-#    uv pip install upstox-python && \
     rm -rf /root/.cache
 # --------------------------------------------------------------------------- #
 
 
-
 # ------------------------------ Production Stage --------------------------- #
-FROM python:3.11-slim AS production
+FROM python:3.13-slim-bookworm AS production
 
 # 0 – set timezone to IST (Asia/Kolkata)
 RUN apt-get update && apt-get install -y --no-install-recommends tzdata && \

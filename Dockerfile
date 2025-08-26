@@ -1,5 +1,5 @@
 # ------------------------------ Builder Stage ------------------------------ #
-FROM python:3.13-bookworm AS builder
+FROM python:3.11-slim
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
         curl build-essential && \
@@ -7,6 +7,17 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /app
 COPY pyproject.toml .
+
+# Install the base dependencies from the original repository
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the additional requirements and install them
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the openalgo source code into the container
+COPY . .
 
 # create isolated virtual-env with uv, then add gunicorn + eventlet
  RUN pip install --no-cache-dir uv && \

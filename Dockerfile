@@ -8,17 +8,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 WORKDIR /app
 COPY pyproject.toml .
 
-# Install the base dependencies from the original repository
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy the additional requirements and install them
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy the openalgo source code into the container
-# COPY . .
-
 # create isolated virtual-env with uv, then add gunicorn + eventlet
  RUN pip install --no-cache-dir uv && \
     uv venv .venv && \
@@ -34,7 +23,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 
 # ------------------------------ Production Stage --------------------------- #
-FROM python:3.13-slim-bookworm AS production
+FROM python:3.11-slim AS production
 
 # 0 – set timezone to IST (Asia/Kolkata)
 RUN apt-get update && apt-get install -y --no-install-recommends tzdata && \

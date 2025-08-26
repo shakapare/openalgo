@@ -17,7 +17,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the openalgo source code into the container
-COPY . .
+# COPY . .
 
 # create isolated virtual-env with uv, then add gunicorn + eventlet
  RUN pip install --no-cache-dir uv && \

@@ -6,7 +6,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
-COPY requirements.txt
+#COPY requirements.txt
 COPY pyproject.toml .
 
 # create isolated virtual-env with uv, then add gunicorn + eventlet
